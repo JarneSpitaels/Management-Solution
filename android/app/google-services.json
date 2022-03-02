@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "905605306611",
+    "project_id": "management-solutions",
+    "storage_bucket": "management-solutions.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:905605306611:android:d6e12b7444e9da489f3f86",
+        "android_client_info": {
+          "package_name": "com.flutterflow.managementsol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "905605306611-m0gs9mdfn8tjmt9i0c1hcdivlnk14nj1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr9cJaXafUOh7ee2SwX9Qp_iaTko-2OtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "905605306611-m0gs9mdfn8tjmt9i0c1hcdivlnk14nj1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "905605306611-ml99olj5an0u8dfl478uf3rtvm006817.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.flutterflow.managementsol"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

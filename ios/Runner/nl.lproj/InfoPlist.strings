@@ -1,0 +1,2 @@
+NSCameraUsageDescription = "Indien u een foto of video wilt maken, heeft deze app toegang nodig tot uw camera";
+NSPhotoLibraryUsageDescription = "Indien u media wilt uploaden, heeft deze app toegang nodig tot uw camera";
