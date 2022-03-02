@@ -7,7 +7,6 @@ import '../login_as_guest/login_as_guest_widget.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key key}) : super(key: key);

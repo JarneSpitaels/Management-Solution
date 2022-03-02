@@ -4,7 +4,6 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../login/login_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SplashscreenWidget extends StatefulWidget {
   const SplashscreenWidget({Key key}) : super(key: key);

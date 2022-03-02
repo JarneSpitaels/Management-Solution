@@ -10,7 +10,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../main.dart';
 
-import 'lat_lng.dart';
 
 export 'dart:math' show min, max;
 export 'package:intl/intl.dart';

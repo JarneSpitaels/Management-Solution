@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 
 import '../backend/backend.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'firebase_user_provider.dart';
 
@@ -22,7 +21,7 @@ Future<User> signInOrCreateAccount(
     final userCredential = await signInFunc();
     await maybeCreateUser(userCredential.user);
     return userCredential.user;
-  } on FirebaseAuthException catch (e) {
+  } on FirebaseAuthException {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -34,6 +33,7 @@ Future<User> signInOrCreateAccount(
   }
 }
 
+// ignore: missing_return
 Future signOut() {
   _currentJwtToken = '';
   FirebaseAuth.instance.signOut();
@@ -42,7 +42,7 @@ Future signOut() {
 Future resetPassword({String email, BuildContext context}) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  } on FirebaseAuthException catch (e) {
+  } on FirebaseAuthException {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(

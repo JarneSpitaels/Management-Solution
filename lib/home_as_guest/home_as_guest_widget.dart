@@ -7,7 +7,6 @@ import '../flutter_flow/upload_media.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeAsGuestWidget extends StatefulWidget {
   const HomeAsGuestWidget({Key key}) : super(key: key);

@@ -11,8 +11,6 @@ import '../flutter_flow/upload_media.dart';
 import '../login/login_widget.dart';
 import '../notification_settings/notification_settings_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 
 class SettingsPageWidget extends StatefulWidget {
   const SettingsPageWidget({Key key}) : super(key: key);
