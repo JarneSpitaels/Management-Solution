@@ -18,6 +18,7 @@ void main() async {
   await FlutterFlowTheme.initialize();
   runApp(MyApp());
 }
+//Comment added
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
