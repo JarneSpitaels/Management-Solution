@@ -1,6 +1,6 @@
-# Management Sol
+# Management Solution
 
-A new Flutter project.
+management solution project for Quivvy
 
 ## Getting Started
 
