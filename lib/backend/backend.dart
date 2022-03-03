@@ -4,6 +4,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 
 import 'schema/users_record.dart';
 import 'schema/items_record.dart';
+import 'schema/accommodations_record.dart';
 import 'schema/serializers.dart';
 
 export 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,6 +13,7 @@ export 'schema/serializers.dart';
 
 export 'schema/users_record.dart';
 export 'schema/items_record.dart';
+export 'schema/accommodations_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Stream<List<UsersRecord>> queryUsersRecord(
@@ -41,6 +43,23 @@ Future<List<ItemsRecord>> queryItemsRecordOnce(
         int limit = -1,
         bool singleRecord = false}) =>
     queryCollectionOnce(ItemsRecord.collection, ItemsRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+/// Functions to query AccommodationsRecords (as a Stream and as a Future).
+Stream<List<AccommodationsRecord>> queryAccommodationsRecord(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollection(
+        AccommodationsRecord.collection, AccommodationsRecord.serializer,
+        queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
+
+Future<List<AccommodationsRecord>> queryAccommodationsRecordOnce(
+        {Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+    queryCollectionOnce(
+        AccommodationsRecord.collection, AccommodationsRecord.serializer,
         queryBuilder: queryBuilder, limit: limit, singleRecord: singleRecord);
 
 Stream<List<T>> queryCollection<T>(

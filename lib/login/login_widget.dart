@@ -451,7 +451,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       builder: (context) =>
                                                           NavBarPage(
                                                               initialPage:
-                                                                  'home'),
+                                                                  'Accommodations'),
                                                     ),
                                                     (r) => false,
                                                   );
@@ -1037,7 +1037,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       builder: (context) =>
                                                           NavBarPage(
                                                               initialPage:
-                                                                  'home'),
+                                                                  'Accommodations'),
                                                     ),
                                                     (r) => false,
                                                   );
@@ -1108,7 +1108,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                     await Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NavBarPage(initialPage: 'home'),
+                        builder: (context) =>
+                            NavBarPage(initialPage: 'Accommodations'),
                       ),
                       (r) => false,
                     );
@@ -1144,7 +1145,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                     await Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NavBarPage(initialPage: 'home'),
+                        builder: (context) =>
+                            NavBarPage(initialPage: 'Accommodations'),
                       ),
                       (r) => false,
                     );
@@ -1180,7 +1182,8 @@ class _LoginWidgetState extends State<LoginWidget> {
                     await Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => NavBarPage(initialPage: 'home'),
+                        builder: (context) =>
+                            NavBarPage(initialPage: 'Accommodations'),
                       ),
                       (r) => false,
                     );

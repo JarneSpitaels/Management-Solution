@@ -10,6 +10,7 @@ import 'package:management_sol/login/login_widget.dart';
 import 'home/home_widget.dart';
 import 'drinksandfood/drinksandfood_widget.dart';
 import 'settings_page/settings_page_widget.dart';
+import 'accommodations/accommodations_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -105,7 +106,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'home';
+  String _currentPage = 'Accommodations';
 
   @override
   void initState() {
@@ -119,6 +120,7 @@ class _NavBarPageState extends State<NavBarPage> {
       'home': HomeWidget(),
       'Drinksandfood': DrinksandfoodWidget(),
       'SettingsPage': SettingsPageWidget(),
+      'Accommodations': AccommodationsWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPage);
     return Scaffold(
@@ -172,6 +174,20 @@ class _NavBarPageState extends State<NavBarPage> {
             ),
             label: FFLocalizations.of(context).getText(
               'c5nzmm88' /* Settings */,
+            ),
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: FaIcon(
+              FontAwesomeIcons.building,
+              size: 22,
+            ),
+            activeIcon: FaIcon(
+              FontAwesomeIcons.solidBuilding,
+              size: 22,
+            ),
+            label: FFLocalizations.of(context).getText(
+              'g2rofudp' /* Accommodations */,
             ),
             tooltip: '',
           )

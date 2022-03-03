@@ -473,38 +473,30 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nl': '',
     },
   },
-  // Accomodations
+  // Accommodations
   {
-    'ebd7rgb8': {
-      'en': 'Accomodation list',
-      'nl': '',
-    },
     'bmzkgjgi': {
-      'en': 'Search accomodations',
+      'en': 'Search accommodations',
       'nl': 'Zoek eten, drinken...',
     },
-    'iusac70w': {
+    't8ba841r': {
       'en': 'honesty bar',
       'nl': '',
     },
-    'harb0s2w': {
+    '9l61uf68': {
       'en': 'meeting room',
       'nl': '',
     },
-    'ty7yvygk': {
+    'eaul64du': {
       'en': '...\n',
       'nl': '',
     },
-    'mmanf549': {
-      'en': 'Location',
-      'nl': '',
-    },
-    '6thbmil3': {
-      'en': 'Accomodation name',
+    'sorg4dch': {
+      'en': 'Accommodations',
       'nl': '',
     },
     'g2rofudp': {
-      'en': 'Drinks',
+      'en': 'Accommodations',
       'nl': 'Drankjes',
     },
   },
