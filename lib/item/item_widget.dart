@@ -7,7 +7,6 @@ import '../main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class ItemWidget extends StatefulWidget {
   const ItemWidget({Key key}) : super(key: key);
