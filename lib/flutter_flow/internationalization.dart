@@ -483,23 +483,23 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'en': 'Search accomodations',
       'nl': 'Zoek eten, drinken...',
     },
-    'adb6u67g': {
+    'iusac70w': {
       'en': 'honesty bar',
       'nl': '',
     },
-    'csdkmfld': {
+    'harb0s2w': {
       'en': 'meeting room',
       'nl': '',
     },
-    'b67f58j1': {
+    'ty7yvygk': {
       'en': '...\n',
       'nl': '',
     },
-    'wszbax2c': {
+    'mmanf549': {
       'en': 'Location',
       'nl': '',
     },
-    'x3zn8hw6': {
+    '6thbmil3': {
       'en': 'Accomodation name',
       'nl': '',
     },
