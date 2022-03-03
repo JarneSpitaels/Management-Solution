@@ -1,4 +1,5 @@
 import '../auth/auth_util.dart';
+import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -92,69 +93,103 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                   child: Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         2, 2, 2, 2),
-                                    child: InkWell(
-                                      onTap: () async {
-                                        final selectedMedia =
-                                            await selectMediaWithSourceBottomSheet(
-                                          context: context,
-                                          allowPhoto: true,
-                                        );
-                                        if (selectedMedia != null &&
-                                            validateFileFormat(
-                                                selectedMedia.storagePath,
-                                                context)) {
-                                          showUploadMessage(
-                                            context,
-                                            'Uploading file...',
-                                            showLoading: true,
-                                          );
-                                          final downloadUrl = await uploadData(
-                                              selectedMedia.storagePath,
-                                              selectedMedia.bytes);
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          if (downloadUrl != null) {
-                                            setState(() =>
-                                                uploadedFileUrl = downloadUrl);
-                                            showUploadMessage(
-                                              context,
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                '34dizgkg' /* Succes! */,
-                                              ),
-                                            );
-                                          } else {
-                                            showUploadMessage(
-                                              context,
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'bk5lx1uu' /* Failed to upload media! */,
-                                              ),
-                                            );
-                                            return;
-                                          }
-                                        }
-                                      },
-                                      child: Hero(
-                                        tag: 'Hero',
-                                        transitionOnUserGestures: true,
-                                        child: Container(
-                                          width: 70,
-                                          height: 70,
-                                          clipBehavior: Clip.antiAlias,
-                                          decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                          ),
-                                          child: Image.asset(
-                                            'assets/images/jarne-podio_(1).png',
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                    child: StreamBuilder<List<UsersRecord>>(
+                                      stream: queryUsersRecord(
+                                        singleRecord: true,
                                       ),
-                                    ).animated([
-                                      animationsMap[
-                                          'circleImageOnPageLoadAnimation']
-                                    ]),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50,
+                                              height: 50,
+                                              child: CircularProgressIndicator(
+                                                color: Color(0xFF0A9782),
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        List<UsersRecord>
+                                            circleImageUsersRecordList =
+                                            snapshot.data;
+                                        // Return an empty Container when the document does not exist.
+                                        if (snapshot.data.isEmpty) {
+                                          return Container();
+                                        }
+                                        final circleImageUsersRecord =
+                                            circleImageUsersRecordList
+                                                    .isNotEmpty
+                                                ? circleImageUsersRecordList
+                                                    .first
+                                                : null;
+                                        return InkWell(
+                                          onTap: () async {
+                                            final selectedMedia =
+                                                await selectMediaWithSourceBottomSheet(
+                                              context: context,
+                                              allowPhoto: true,
+                                            );
+                                            if (selectedMedia != null &&
+                                                validateFileFormat(
+                                                    selectedMedia.storagePath,
+                                                    context)) {
+                                              showUploadMessage(
+                                                context,
+                                                'Uploading file...',
+                                                showLoading: true,
+                                              );
+                                              final downloadUrl =
+                                                  await uploadData(
+                                                      selectedMedia.storagePath,
+                                                      selectedMedia.bytes);
+                                              ScaffoldMessenger.of(context)
+                                                  .hideCurrentSnackBar();
+                                              if (downloadUrl != null) {
+                                                setState(() => uploadedFileUrl =
+                                                    downloadUrl);
+                                                showUploadMessage(
+                                                  context,
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    '34dizgkg' /* Succes! */,
+                                                  ),
+                                                );
+                                              } else {
+                                                showUploadMessage(
+                                                  context,
+                                                  FFLocalizations.of(context)
+                                                      .getText(
+                                                    'bk5lx1uu' /* Failed to upload media! */,
+                                                  ),
+                                                );
+                                                return;
+                                              }
+                                            }
+                                          },
+                                          child: Hero(
+                                            tag:
+                                                circleImageUsersRecord.photoUrl,
+                                            transitionOnUserGestures: true,
+                                            child: Container(
+                                              width: 70,
+                                              height: 70,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Image.network(
+                                                circleImageUsersRecord.photoUrl,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ).animated([
+                                          animationsMap[
+                                              'circleImageOnPageLoadAnimation']
+                                        ]);
+                                      },
+                                    ),
                                   ),
                                 ),
                               ],
@@ -246,108 +281,115 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 24, 20, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '1l9887t3' /* This weeks spending */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 8, 20, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'hpncpj04' /* € 130 */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .title1
-                                          .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                    FaIcon(
-                                      FontAwesomeIcons.solidCircle,
-                                      color: Colors.white,
-                                      size: 10,
-                                    ),
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '9lyll4nw' /* 4 credits */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .title1
-                                          .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: Colors.white,
-                                            fontSize: 32,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 12, 20, 16),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    FaIcon(
-                                      FontAwesomeIcons.infoCircle,
-                                      color: Colors.white,
-                                      size: 15,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          5, 0, 0, 0),
-                                      child: Text(
+                          child: Visibility(
+                            visible: responsiveVisibility(
+                              context: context,
+                              phone: false,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 24, 20, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Text(
                                         FFLocalizations.of(context).getText(
-                                          '4uyu58wh' /* More details */,
+                                          '1l9887t3' /* This weeks spending */,
                                         ),
-                                        textAlign: TextAlign.start,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyText1
                                             .override(
-                                              fontFamily: 'Roboto Mono',
+                                              fontFamily: 'Lexend Deca',
                                               color: Colors.white,
                                               fontSize: 14,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.normal,
                                             ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 8, 20, 0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        FFLocalizations.of(context).getText(
+                                          'hpncpj04' /* € 130 */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .title1
+                                            .override(
+                                              fontFamily: 'Lexend Deca',
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryBackground,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                      FaIcon(
+                                        FontAwesomeIcons.solidCircle,
+                                        color: Colors.white,
+                                        size: 10,
+                                      ),
+                                      Text(
+                                        FFLocalizations.of(context).getText(
+                                          '9lyll4nw' /* 4 credits */,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .title1
+                                            .override(
+                                              fontFamily: 'Lexend Deca',
+                                              color: Colors.white,
+                                              fontSize: 32,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      20, 12, 20, 16),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      FaIcon(
+                                        FontAwesomeIcons.infoCircle,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            5, 0, 0, 0),
+                                        child: Text(
+                                          FFLocalizations.of(context).getText(
+                                            '4uyu58wh' /* More details */,
+                                          ),
+                                          textAlign: TextAlign.start,
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyText1
+                                              .override(
+                                                fontFamily: 'Roboto Mono',
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

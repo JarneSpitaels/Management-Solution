@@ -388,6 +388,33 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nl': '',
     },
   },
+  // ForgotPassword
+  {
+    'umymqi43': {
+      'en': 'Forgot password?',
+      'nl': 'Log in als gast',
+    },
+    '58kdbn2m': {
+      'en': 'Reset your password',
+      'nl': 'Welkom!',
+    },
+    '5vsqsjj5': {
+      'en': 'Email Address',
+      'nl': 'jouw e-mailadres',
+    },
+    'x5ymdt1p': {
+      'en': 'Please enter a valid email',
+      'nl': 'Gelieve een geldig e-mailadres in te vullen',
+    },
+    'bae8yfgm': {
+      'en': 'Reset Password',
+      'nl': 'Log in als gast',
+    },
+    '2hxs16bc': {
+      'en': 'Home',
+      'nl': '',
+    },
+  },
   // homeAsGuest
   {
     'zpnum5w5': {
@@ -419,33 +446,6 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
       'nl': '',
     },
   },
-  // ForgotPassword
-  {
-    'umymqi43': {
-      'en': 'Forgot password?',
-      'nl': 'Log in als gast',
-    },
-    '58kdbn2m': {
-      'en': 'Reset your password',
-      'nl': 'Welkom!',
-    },
-    '5vsqsjj5': {
-      'en': 'Email Address',
-      'nl': 'jouw e-mailadres',
-    },
-    'x5ymdt1p': {
-      'en': 'Please enter a valid email',
-      'nl': 'Gelieve een geldig e-mailadres in te vullen',
-    },
-    'bae8yfgm': {
-      'en': 'Reset Password',
-      'nl': 'Log in als gast',
-    },
-    '2hxs16bc': {
-      'en': 'Home',
-      'nl': '',
-    },
-  },
   // LoginAsGuest
   {
     'bwgo0zcv': {
@@ -471,6 +471,41 @@ final kTranslationsMap = <Map<String, Map<String, String>>>[
     'oshwir3f': {
       'en': 'Home',
       'nl': '',
+    },
+  },
+  // Accomodations
+  {
+    'ebd7rgb8': {
+      'en': 'Accomodation list',
+      'nl': '',
+    },
+    'bmzkgjgi': {
+      'en': 'Search accomodations',
+      'nl': 'Zoek eten, drinken...',
+    },
+    'iusac70w': {
+      'en': 'honesty bar',
+      'nl': '',
+    },
+    'harb0s2w': {
+      'en': 'meeting room',
+      'nl': '',
+    },
+    'ty7yvygk': {
+      'en': '...\n',
+      'nl': '',
+    },
+    'mmanf549': {
+      'en': 'Location',
+      'nl': '',
+    },
+    '6thbmil3': {
+      'en': 'Accomodation name',
+      'nl': '',
+    },
+    'g2rofudp': {
+      'en': 'Drinks',
+      'nl': 'Drankjes',
     },
   },
   // Miscellaneous
