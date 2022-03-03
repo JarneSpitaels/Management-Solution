@@ -1,18 +1,23 @@
 import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_checkbox_group.dart';
+import '../flutter_flow/flutter_flow_icon_button.dart';
+import '../flutter_flow/flutter_flow_static_map.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/lat_lng.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mapbox_search/mapbox_search.dart';
 
-class AccomodationsWidget extends StatefulWidget {
-  const AccomodationsWidget({Key key}) : super(key: key);
+class AccommodationsWidget extends StatefulWidget {
+  const AccommodationsWidget({Key key}) : super(key: key);
 
   @override
-  _AccomodationsWidgetState createState() => _AccomodationsWidgetState();
+  _AccommodationsWidgetState createState() => _AccommodationsWidgetState();
 }
 
-class _AccomodationsWidgetState extends State<AccomodationsWidget> {
+class _AccommodationsWidgetState extends State<AccommodationsWidget> {
   List<String> checkboxGroupValues;
   TextEditingController searchFieldController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -28,22 +33,33 @@ class _AccomodationsWidgetState extends State<AccomodationsWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color(0xFF0A9782),
+        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
         automaticallyImplyLeading: false,
-        title: Text(
-          FFLocalizations.of(context).getText(
-            'ebd7rgb8' /* Accomodation list */,
+        leading: FlutterFlowIconButton(
+          borderColor: Colors.transparent,
+          borderRadius: 30,
+          borderWidth: 1,
+          buttonSize: 60,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
+            size: 30,
           ),
-          textAlign: TextAlign.center,
-          style: FlutterFlowTheme.of(context).title1.override(
-                fontFamily: 'Lexend Deca',
-                color: Colors.white,
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
+          onPressed: () {
+            print('IconButton pressed ...');
+          },
+        ),
+        title: Text(
+          'Accommodations',
+          style: FlutterFlowTheme.of(context).title2.override(
+                fontFamily: 'Poppins',
+                color: Color(0xFFF9F9F9),
+                fontSize: 26,
               ),
         ),
         actions: [],
         centerTitle: true,
+        elevation: 2,
       ),
       backgroundColor: FlutterFlowTheme.of(context).secondaryColor,
       body: Stack(
@@ -79,7 +95,7 @@ class _AccomodationsWidgetState extends State<AccomodationsWidget> {
                         obscureText: false,
                         decoration: InputDecoration(
                           hintText: FFLocalizations.of(context).getText(
-                            'bmzkgjgi' /* Search accomodations */,
+                            'bmzkgjgi' /* Search accommodations */,
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
@@ -134,8 +150,8 @@ class _AccomodationsWidgetState extends State<AccomodationsWidget> {
               Expanded(
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                  child: StreamBuilder<List<ItemsRecord>>(
-                    stream: queryItemsRecord(),
+                  child: StreamBuilder<List<AccommodationsRecord>>(
+                    stream: queryAccommodationsRecord(),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
                       if (!snapshot.hasData) {
@@ -149,14 +165,15 @@ class _AccomodationsWidgetState extends State<AccomodationsWidget> {
                           ),
                         );
                       }
-                      List<ItemsRecord> listViewItemsRecordList = snapshot.data;
+                      List<AccommodationsRecord>
+                          listViewAccommodationsRecordList = snapshot.data;
                       return ListView.builder(
                         padding: EdgeInsets.zero,
                         scrollDirection: Axis.vertical,
-                        itemCount: listViewItemsRecordList.length,
+                        itemCount: listViewAccommodationsRecordList.length,
                         itemBuilder: (context, listViewIndex) {
-                          final listViewItemsRecord =
-                              listViewItemsRecordList[listViewIndex];
+                          final listViewAccommodationsRecord =
+                              listViewAccommodationsRecordList[listViewIndex];
                           return Container(
                             width: 100,
                             height: 100,
@@ -171,25 +188,34 @@ class _AccomodationsWidgetState extends State<AccomodationsWidget> {
                                   Align(
                                     alignment: AlignmentDirectional(-0.33, 0),
                                     child: Image.network(
-                                      listViewItemsRecord.image,
+                                      listViewAccommodationsRecord.image,
                                       width: 100,
                                       height: 100,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
-                                  Align(
-                                    alignment:
-                                        AlignmentDirectional(0.95, -0.97),
-                                    child: Text(
-                                      'Location',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1,
-                                    ),
-                                  ),
                                   Text(
-                                    'Accomodation name',
+                                    listViewAccommodationsRecord.name,
                                     style:
                                         FlutterFlowTheme.of(context).bodyText1,
+                                  ),
+                                  Align(
+                                    alignment: AlignmentDirectional(0.73, 0),
+                                    child: FlutterFlowStaticMap(
+                                      location:
+                                          listViewAccommodationsRecord.locatie,
+                                      apiKey:
+                                          'sk.eyJ1Ijoic3BpdHRpZSIsImEiOiJjbDBiMGFldTQwNmUzM2ptanVhbGI3Nm5vIn0.6GSQsbuoWkJDDeAlMJJAZg',
+                                      style: MapBoxStyle.Light,
+                                      width: 100,
+                                      height: 300,
+                                      fit: BoxFit.cover,
+                                      borderRadius: BorderRadius.circular(0),
+                                      markerColor: Color(0xFF0A9782),
+                                      zoom: 14,
+                                      tilt: 0,
+                                      rotation: 0,
+                                    ),
                                   ),
                                 ],
                               ),

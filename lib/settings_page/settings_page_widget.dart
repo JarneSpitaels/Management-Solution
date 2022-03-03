@@ -1,4 +1,5 @@
 import '../auth/auth_util.dart';
+import '../backend/backend.dart';
 import '../backend/firebase_storage/storage.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_expanded_image_view.dart';
@@ -152,80 +153,111 @@ class _SettingsPageWidgetState extends State<SettingsPageWidget>
                           ),
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(2, 2, 2, 2),
-                            child: InkWell(
-                              onTap: () async {
-                                final selectedMedia =
-                                    await selectMediaWithSourceBottomSheet(
-                                  context: context,
-                                  allowPhoto: true,
-                                );
-                                if (selectedMedia != null &&
-                                    validateFileFormat(
-                                        selectedMedia.storagePath, context)) {
-                                  showUploadMessage(
-                                    context,
-                                    'Uploading file...',
-                                    showLoading: true,
+                            child: StreamBuilder<List<UsersRecord>>(
+                              stream: queryUsersRecord(
+                                singleRecord: true,
+                              ),
+                              builder: (context, snapshot) {
+                                // Customize what your widget looks like when it's loading.
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: SizedBox(
+                                      width: 50,
+                                      height: 50,
+                                      child: CircularProgressIndicator(
+                                        color: Color(0xFF0A9782),
+                                      ),
+                                    ),
                                   );
-                                  final downloadUrl = await uploadData(
-                                      selectedMedia.storagePath,
-                                      selectedMedia.bytes);
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentSnackBar();
-                                  if (downloadUrl != null) {
-                                    setState(
-                                        () => uploadedFileUrl = downloadUrl);
-                                    showUploadMessage(
-                                      context,
-                                      FFLocalizations.of(context).getText(
-                                        '34dizgkg' /* Succes! */,
-                                      ),
-                                    );
-                                  } else {
-                                    showUploadMessage(
-                                      context,
-                                      FFLocalizations.of(context).getText(
-                                        'bk5lx1uu' /* Failed to upload media! */,
-                                      ),
-                                    );
-                                    return;
-                                  }
                                 }
-                                await Navigator.push(
-                                  context,
-                                  PageTransition(
-                                    type: PageTransitionType.fade,
-                                    child: FlutterFlowExpandedImageView(
-                                      image: Image.asset(
-                                        'assets/images/jarne-podio_(1).png',
-                                        fit: BoxFit.contain,
+                                List<UsersRecord> circleImageUsersRecordList =
+                                    snapshot.data;
+                                // Return an empty Container when the document does not exist.
+                                if (snapshot.data.isEmpty) {
+                                  return Container();
+                                }
+                                final circleImageUsersRecord =
+                                    circleImageUsersRecordList.isNotEmpty
+                                        ? circleImageUsersRecordList.first
+                                        : null;
+                                return InkWell(
+                                  onTap: () async {
+                                    final selectedMedia =
+                                        await selectMediaWithSourceBottomSheet(
+                                      context: context,
+                                      allowPhoto: true,
+                                    );
+                                    if (selectedMedia != null &&
+                                        validateFileFormat(
+                                            selectedMedia.storagePath,
+                                            context)) {
+                                      showUploadMessage(
+                                        context,
+                                        'Uploading file...',
+                                        showLoading: true,
+                                      );
+                                      final downloadUrl = await uploadData(
+                                          selectedMedia.storagePath,
+                                          selectedMedia.bytes);
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                      if (downloadUrl != null) {
+                                        setState(() =>
+                                            uploadedFileUrl = downloadUrl);
+                                        showUploadMessage(
+                                          context,
+                                          FFLocalizations.of(context).getText(
+                                            '34dizgkg' /* Succes! */,
+                                          ),
+                                        );
+                                      } else {
+                                        showUploadMessage(
+                                          context,
+                                          FFLocalizations.of(context).getText(
+                                            'bk5lx1uu' /* Failed to upload media! */,
+                                          ),
+                                        );
+                                        return;
+                                      }
+                                    }
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        child: FlutterFlowExpandedImageView(
+                                          image: Image.network(
+                                            circleImageUsersRecord.photoUrl,
+                                            fit: BoxFit.contain,
+                                          ),
+                                          allowRotation: false,
+                                          tag: circleImageUsersRecord.photoUrl,
+                                          useHeroAnimation: true,
+                                        ),
                                       ),
-                                      allowRotation: false,
-                                      tag: 'Hero',
-                                      useHeroAnimation: true,
+                                    );
+                                  },
+                                  child: Hero(
+                                    tag: circleImageUsersRecord.photoUrl,
+                                    transitionOnUserGestures: true,
+                                    child: Container(
+                                      width: 70,
+                                      height: 70,
+                                      clipBehavior: Clip.antiAlias,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: Image.network(
+                                        circleImageUsersRecord.photoUrl,
+                                        fit: BoxFit.cover,
+                                      ),
                                     ),
                                   ),
-                                );
+                                ).animated([
+                                  animationsMap[
+                                      'circleImageOnPageLoadAnimation']
+                                ]);
                               },
-                              child: Hero(
-                                tag: 'Hero',
-                                transitionOnUserGestures: true,
-                                child: Container(
-                                  width: 70,
-                                  height: 70,
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/jarne-podio_(1).png',
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                            ).animated([
-                              animationsMap['circleImageOnPageLoadAnimation']
-                            ]),
+                            ),
                           ),
                         ),
                       ),
