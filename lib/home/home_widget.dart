@@ -1,13 +1,21 @@
 import '../auth/auth_util.dart';
 import '../backend/backend.dart';
-import '../backend/firebase_storage/storage.dart';
+import '../done_orders/done_orders_widget.dart';
+import '../event/event_widget.dart';
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../flutter_flow/upload_media.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
+import '../home_accommodation_owner/home_accommodation_owner_widget.dart';
 import '../main.dart';
+import '../payments/payments_widget.dart';
+import '../reservations/reservations_widget.dart';
+import '../your_accommodations/your_accommodations_widget.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeWidget extends StatefulWidget {
   const HomeWidget({Key key}) : super(key: key);
@@ -17,7 +25,7 @@ class HomeWidget extends StatefulWidget {
 }
 
 class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
-  String uploadedFileUrl = '';
+  PageController pageViewController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final animationsMap = {
     'circleImageOnPageLoadAnimation': AnimationInfo(
@@ -51,48 +59,49 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Stack(
-              children: [],
+      body: Stack(
+        children: [
+          Stack(
+            children: [],
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(0),
+            child: Image.asset(
+              'assets/images/White_Background_generated.jpg',
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 1,
+              fit: BoxFit.cover,
             ),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(0),
-              child: Image.asset(
-                'assets/images/White_Background_generated.jpg',
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * 1,
-                fit: BoxFit.cover,
-              ),
-            ),
-            Column(
+          ),
+          Align(
+            alignment: AlignmentDirectional(0, 0),
+            child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
-                SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Card(
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        2, 2, 2, 2),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Card(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                color:
+                                    FlutterFlowTheme.of(context).primaryColor,
+                                elevation: 10,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(40),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      2, 2, 2, 2),
+                                  child: AuthUserStreamWidget(
                                     child: StreamBuilder<List<UsersRecord>>(
                                       stream: queryUsersRecord(
                                         singleRecord: true,
@@ -123,65 +132,25 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                 ? circleImageUsersRecordList
                                                     .first
                                                 : null;
-                                        return InkWell(
-                                          onTap: () async {
-                                            final selectedMedia =
-                                                await selectMediaWithSourceBottomSheet(
-                                              context: context,
-                                              allowPhoto: true,
-                                            );
-                                            if (selectedMedia != null &&
-                                                validateFileFormat(
-                                                    selectedMedia.storagePath,
-                                                    context)) {
-                                              showUploadMessage(
-                                                context,
-                                                'Uploading file...',
-                                                showLoading: true,
-                                              );
-                                              final downloadUrl =
-                                                  await uploadData(
-                                                      selectedMedia.storagePath,
-                                                      selectedMedia.bytes);
-                                              ScaffoldMessenger.of(context)
-                                                  .hideCurrentSnackBar();
-                                              if (downloadUrl != null) {
-                                                setState(() => uploadedFileUrl =
-                                                    downloadUrl);
-                                                showUploadMessage(
-                                                  context,
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    '34dizgkg' /* Succes! */,
-                                                  ),
-                                                );
-                                              } else {
-                                                showUploadMessage(
-                                                  context,
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'bk5lx1uu' /* Failed to upload media! */,
-                                                  ),
-                                                );
-                                                return;
-                                              }
-                                            }
-                                          },
-                                          child: Hero(
-                                            tag:
-                                                circleImageUsersRecord.photoUrl,
-                                            transitionOnUserGestures: true,
-                                            child: Container(
-                                              width: 70,
-                                              height: 70,
-                                              clipBehavior: Clip.antiAlias,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
+                                        return Hero(
+                                          tag: valueOrDefault<String>(
+                                            currentUserPhoto,
+                                            'https://cdn.arstechnica.net/wp-content/uploads/archive/02-16-2011/facebook_head.jpg',
+                                          ),
+                                          transitionOnUserGestures: true,
+                                          child: Container(
+                                            width: 70,
+                                            height: 70,
+                                            clipBehavior: Clip.antiAlias,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Image.network(
+                                              valueOrDefault<String>(
+                                                currentUserPhoto,
+                                                'https://cdn.arstechnica.net/wp-content/uploads/archive/02-16-2011/facebook_head.jpg',
                                               ),
-                                              child: Image.network(
-                                                circleImageUsersRecord.photoUrl,
-                                                fit: BoxFit.cover,
-                                              ),
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                         ).animated([
@@ -192,37 +161,37 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        FFLocalizations.of(context).getText(
-                                          'idns1t19' /* Welcome, */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .title3
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFF1E2429),
-                                              fontSize: 24,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4, 0, 0, 0),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Text(
+                                      'Welcome,',
+                                      style: FlutterFlowTheme.of(context)
+                                          .title3
+                                          .override(
+                                            fontFamily: 'Lexend Deca',
+                                            color: Color(0xFF1E2429),
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          4, 0, 0, 0),
+                                      child: AuthUserStreamWidget(
                                         child: Text(
-                                          currentUserEmail,
+                                          currentUserDisplayName,
                                           style: FlutterFlowTheme.of(context)
                                               .subtitle1
                                               .override(
@@ -235,15 +204,15 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                               ),
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 4, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 4, 0, 0),
+                                  child: AuthUserStreamWidget(
                                     child: Text(
-                                      FFLocalizations.of(context).getText(
-                                        'yiqqaui9' /* Team Quivvy */,
-                                      ),
+                                      currentUserDocument?.organisation,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
@@ -255,148 +224,426 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                           ),
                                     ),
                                   ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if ((currentUserDocument?.isAdmin) == true)
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
+                              child: AuthUserStreamWidget(
+                                child: FFButtonWidget(
+                                  onPressed: () async {
+                                    await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            HomeAccommodationOwnerWidget(),
+                                      ),
+                                    );
+                                  },
+                                  text: 'switch',
+                                  options: FFButtonOptions(
+                                    width: 60,
+                                    height: 20,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryColor,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .subtitle2
+                                        .override(
+                                          fontFamily: 'Poppins',
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          fontSize: 12,
+                                        ),
+                                    borderSide: BorderSide(
+                                      color: Colors.transparent,
+                                      width: 1,
+                                    ),
+                                    borderRadius: 12,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * 0.92,
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              blurRadius: 6,
+                              color: Color(0x4B1A1F24),
+                              offset: Offset(0, 2),
+                            )
+                          ],
+                          gradient: LinearGradient(
+                            colors: [Color(0xFF00968A), Color(0xFF1E2429)],
+                            stops: [0, 0.7],
+                            begin: AlignmentDirectional(0.94, -1),
+                            end: AlignmentDirectional(-0.94, 1),
+                          ),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 24, 20, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    'Current spendings',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyText1
+                                        .override(
+                                          fontFamily: 'Lexend Deca',
+                                          color: Colors.white,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(20, 8, 20, 0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AuthUserStreamWidget(
+                                    child: Text(
+                                      formatNumber(
+                                        currentUserDocument?.spendings,
+                                        formatType: FormatType.decimal,
+                                        decimalType: DecimalType.automatic,
+                                        currency: '€',
+                                      ),
+                                      style: FlutterFlowTheme.of(context)
+                                          .title1
+                                          .override(
+                                            fontFamily: 'Lexend Deca',
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryBackground,
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  20, 12, 20, 16),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  FaIcon(
+                                    FontAwesomeIcons.infoCircle,
+                                    color: Colors.white,
+                                    size: 15,
+                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * 0.92,
-                          decoration: BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(
-                                blurRadius: 6,
-                                color: Color(0x4B1A1F24),
-                                offset: Offset(0, 2),
-                              )
-                            ],
-                            gradient: LinearGradient(
-                              colors: [Color(0xFF00968A), Color(0xFF1E2429)],
-                              stops: [0, 0.7],
-                              begin: AlignmentDirectional(0.94, -1),
-                              end: AlignmentDirectional(-0.94, 1),
-                            ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Visibility(
-                            visible: responsiveVisibility(
-                              context: context,
-                              phone: false,
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 24, 20, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Text(
-                                        FFLocalizations.of(context).getText(
-                                          '1l9887t3' /* This weeks spending */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 8, 20, 0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Text(
-                                        FFLocalizations.of(context).getText(
-                                          'hpncpj04' /* € 130 */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .title1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                      FaIcon(
-                                        FontAwesomeIcons.solidCircle,
-                                        color: Colors.white,
-                                        size: 10,
-                                      ),
-                                      Text(
-                                        FFLocalizations.of(context).getText(
-                                          '9lyll4nw' /* 4 credits */,
-                                        ),
-                                        style: FlutterFlowTheme.of(context)
-                                            .title1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Colors.white,
-                                              fontSize: 32,
-                                              fontWeight: FontWeight.bold,
-                                            ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      20, 12, 20, 16),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      FaIcon(
-                                        FontAwesomeIcons.infoCircle,
-                                        color: Colors.white,
-                                        size: 15,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5, 0, 0, 0),
-                                        child: Text(
-                                          FFLocalizations.of(context).getText(
-                                            '4uyu58wh' /* More details */,
-                                          ),
-                                          textAlign: TextAlign.start,
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText1
-                                              .override(
-                                                fontFamily: 'Roboto Mono',
-                                                color: Colors.white,
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                  child: Material(
+                    color: Colors.transparent,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).primaryBackground,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Color(0x39000000),
+                            offset: Offset(0, -1),
+                          )
+                        ],
+                        borderRadius: BorderRadius.circular(2),
+                        shape: BoxShape.rectangle,
+                        border: Border.all(
+                          color: Color(0x17FFFFFF),
+                          width: 2,
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 0),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Upcoming events',
+                            textAlign: TextAlign.start,
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      color: Color(0xFF0A9782),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                              child: StreamBuilder<List<EventsRecord>>(
+                                stream: queryEventsRecord(
+                                  queryBuilder: (eventsRecord) =>
+                                      eventsRecord.orderBy('startTime'),
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50,
+                                        height: 50,
+                                        child: CircularProgressIndicator(
+                                          color: Color(0xFF0A9782),
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  List<EventsRecord> pageViewEventsRecordList =
+                                      snapshot.data;
+                                  return Container(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.98,
+                                    height:
+                                        MediaQuery.of(context).size.height * 1,
+                                    child: Stack(
+                                      children: [
+                                        PageView.builder(
+                                          controller: pageViewController ??=
+                                              PageController(
+                                                  initialPage: min(
+                                                      0,
+                                                      pageViewEventsRecordList
+                                                              .length -
+                                                          1)),
+                                          scrollDirection: Axis.horizontal,
+                                          itemCount:
+                                              pageViewEventsRecordList.length,
+                                          itemBuilder:
+                                              (context, pageViewIndex) {
+                                            final pageViewEventsRecord =
+                                                pageViewEventsRecordList[
+                                                    pageViewIndex];
+                                            return Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 20, 0, 0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.min,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0, 0, 0, 7),
+                                                        child: InkWell(
+                                                          onTap: () async {
+                                                            await Navigator
+                                                                .push(
+                                                              context,
+                                                              MaterialPageRoute(
+                                                                builder:
+                                                                    (context) =>
+                                                                        EventWidget(
+                                                                  event:
+                                                                      pageViewEventsRecord,
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        15),
+                                                            child:
+                                                                CachedNetworkImage(
+                                                              imageUrl:
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                pageViewEventsRecord
+                                                                    .image,
+                                                                'https://assets.simpleviewinc.com/simpleview/image/upload/c_limit,h_1200,q_75,w_1200/v1/clients/irving-redesign/Events_Page_Header_2903ed9c-40c1-4f6c-9a69-70bb8415295b.jpg',
+                                                              ),
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.9,
+                                                              height: 100,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(0, 0,
+                                                                    0, 30),
+                                                        child: Row(
+                                                          mainAxisSize:
+                                                              MainAxisSize.min,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          children: [
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0,
+                                                                          0,
+                                                                          40,
+                                                                          0),
+                                                              child: Text(
+                                                                pageViewEventsRecord
+                                                                    .name,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .subtitle2
+                                                                    .override(
+                                                                      fontFamily:
+                                                                          'Poppins',
+                                                                      color: Color(
+                                                                          0xFF57636C),
+                                                                    ),
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              pageViewEventsRecord
+                                                                  .dateEvent,
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .subtitle2
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Poppins',
+                                                                    color: Color(
+                                                                        0xFF57636C),
+                                                                  ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                        Align(
+                                          alignment: AlignmentDirectional(0, 1),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0, 0, 0, 5),
+                                            child: SmoothPageIndicator(
+                                              controller: pageViewController ??=
+                                                  PageController(
+                                                      initialPage: min(
+                                                          0,
+                                                          pageViewEventsRecordList
+                                                                  .length -
+                                                              1)),
+                                              count: pageViewEventsRecordList
+                                                  .length,
+                                              axisDirection: Axis.horizontal,
+                                              onDotClicked: (i) {
+                                                pageViewController
+                                                    .animateToPage(
+                                                  i,
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease,
+                                                );
+                                              },
+                                              effect: ExpandingDotsEffect(
+                                                expansionFactor: 2,
+                                                spacing: 8,
+                                                radius: 10,
+                                                dotWidth: 10,
+                                                dotHeight: 10,
+                                                dotColor: Color(0xFF57636C),
+                                                activeDotColor:
+                                                    Color(0xFF0A9782),
+                                                paintStyle: PaintingStyle.fill,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if (currentUserDocument?.isAdmin ?? true)
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    child: AuthUserStreamWidget(
+                      child: Material(
+                        color: Colors.transparent,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0),
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
+                          height: 300,
                           decoration: BoxDecoration(
                             color:
                                 FlutterFlowTheme.of(context).primaryBackground,
@@ -407,389 +654,43 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                 offset: Offset(0, -1),
                               )
                             ],
-                            borderRadius: BorderRadius.circular(0),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(0),
+                              bottomRight: Radius.circular(0),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
                             shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: Color(0x17FFFFFF),
+                              width: 2,
+                            ),
                           ),
                           child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisSize: MainAxisSize.max,
                             children: [
                               Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 16, 20, 0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        'ehuw82ag' /* Overview */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .subtitle2
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    8, 12, 16, 8),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    InkWell(
-                                      onTap: () async {
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => NavBarPage(
-                                                initialPage: 'Drinksandfood'),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 100,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 5,
-                                              color: Color(0x3B000000),
-                                              offset: Offset(0, 2),
-                                            )
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  4, 4, 4, 4),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FaIcon(
-                                                FontAwesomeIcons.coffee,
-                                                color: Color(0xFF1E2429),
-                                                size: 40,
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 8, 0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'w99szdju' /* Food & Drinks */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Lexend Deca',
-                                                        color:
-                                                            Color(0xFF090F13),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () async {
-                                        await Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => NavBarPage(
-                                                initialPage: 'Drinksandfood'),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        width: 100,
-                                        height: 100,
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          boxShadow: [
-                                            BoxShadow(
-                                              blurRadius: 5,
-                                              color: Color(0x3A000000),
-                                              offset: Offset(0, 2),
-                                            )
-                                          ],
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  4, 4, 4, 4),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              FaIcon(
-                                                FontAwesomeIcons.calendarDay,
-                                                color: Color(0xFF1E2429),
-                                                size: 40,
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 8, 0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    '4701ed6e' /* Reservations */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Lexend Deca',
-                                                        color:
-                                                            Color(0xFF090F13),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      width: 100,
-                                      height: 100,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            blurRadius: 5,
-                                            color: Color(0x39000000),
-                                            offset: Offset(0, 2),
-                                          )
-                                        ],
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            4, 4, 4, 4),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Icon(
-                                              Icons.event_note,
-                                              color: Color(0xFF1E2429),
-                                              size: 40,
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 8, 0, 0),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'xctujbwg' /* Events */,
-                                                ),
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyText1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF090F13),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    20, 12, 20, 12),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      FFLocalizations.of(context).getText(
-                                        '5f26u8d6' /* Recent Spendings */,
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: Color(0xFF090F13),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.92,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 3,
-                                      color: Color(0xFFB4BBC1),
-                                      offset: Offset(1, 1),
-                                      spreadRadius: 1,
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 0, 0, 0),
-                                      child: Card(
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        color: Color(0x8CFF5963),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  8, 10, 8, 8),
-                                          child: FaIcon(
-                                            FontAwesomeIcons.beer,
-                                            color: Color(0xFF1E2429),
-                                            size: 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            12, 0, 0, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'v9yf2asg' /* Beer */,
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle1
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: Color(0xFF1E2429),
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'lwwcux1b' /* 3 x */,
-                                                ),
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyText1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF090F13),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12, 0, 12, 0),
-                                      child: Column(
+                                          20, 16, 20, 0),
+                                      child: Row(
                                         mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
                                         children: [
                                           Text(
-                                            FFLocalizations.of(context).getText(
-                                              'dt2ql7lw' /* -€3 */,
-                                            ),
-                                            textAlign: TextAlign.end,
+                                            'Overview',
                                             style: FlutterFlowTheme.of(context)
                                                 .subtitle2
                                                 .override(
-                                                  fontFamily: 'Lexend Deca',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
+                                                  fontFamily: 'Poppins',
+                                                  color: Color(0xFF0A9782),
                                                 ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 4, 0, 0),
-                                            child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'wya1s754' /* Honesty Bar */,
-                                              ),
-                                              textAlign: TextAlign.end,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyText1
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: Color(0xFF090F13),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                            ),
                                           ),
                                         ],
                                       ),
@@ -797,476 +698,1004 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 8, 0, 0),
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.92,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 3,
-                                        color: Color(0xFFB4BBC1),
-                                        offset: Offset(1, 1),
-                                        spreadRadius: 1,
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 0, 0),
-                                        child: Card(
-                                          clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
-                                          color: Color(0x8DFF5963),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8, 8, 8, 8),
-                                            child: Icon(
-                                              Icons.local_cafe,
-                                              color: Color(0xFF1E2429),
-                                              size: 24,
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16, 12, 16, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavBarPage(
+                                                        initialPage:
+                                                            'Drinksandfood'),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 90,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 5,
+                                                  color: Color(0x3B000000),
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'dv2j4nbc' /* Coffee */,
-                                                ),
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .subtitle1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF1E2429),
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 4, 0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'hmgz3fwy' /* 1 x */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Lexend Deca',
-                                                        color:
-                                                            Color(0xFF090F13),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            12, 0, 12, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'ivft90cl' /* -€1 */,
-                                              ),
-                                              textAlign: TextAlign.end,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                            ),
-                                            Padding(
+                                            child: Padding(
                                               padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'yj0cxjws' /* Kohezie */,
-                                                ),
-                                                textAlign: TextAlign.end,
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyText1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF090F13),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(0, 8, 0, 12),
-                                child: Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.92,
-                                  height: 70,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    boxShadow: [
-                                      BoxShadow(
-                                        blurRadius: 3,
-                                        color: Color(0xFFB4BBC1),
-                                        offset: Offset(1, 1),
-                                        spreadRadius: 1,
-                                      )
-                                    ],
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 0, 0),
-                                        child: Card(
-                                          clipBehavior:
-                                              Clip.antiAliasWithSaveLayer,
-                                          color: FlutterFlowTheme.of(context)
-                                              .tertiaryColor,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    8, 8, 8, 8),
-                                            child: FaIcon(
-                                              FontAwesomeIcons.solidCalendar,
-                                              color: Color(0xFF1E2429),
-                                              size: 24,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  12, 0, 0, 0),
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'vumw5jm5' /* MR4 Mich */,
-                                                ),
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .subtitle1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF1E2429),
-                                                      fontSize: 18,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                    ),
-                                              ),
-                                              Padding(
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(0, 4, 0, 0),
-                                                child: Text(
-                                                  FFLocalizations.of(context)
-                                                      .getText(
-                                                    'kukzd5nz' /* 1 hour | Room */,
-                                                  ),
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyText1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Lexend Deca',
-                                                        color:
-                                                            Color(0xFF090F13),
-                                                        fontSize: 14,
-                                                        fontWeight:
-                                                            FontWeight.normal,
-                                                      ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            12, 0, 12, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.end,
-                                          children: [
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                '2jum16ro' /* -1 credit */,
-                                              ),
-                                              textAlign: TextAlign.end,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle2
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                    fontSize: 16,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'q3ac0yuf' /* Kohezie */,
-                                                ),
-                                                textAlign: TextAlign.end,
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyText1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF090F13),
-                                                      fontSize: 12,
-                                                      fontWeight:
-                                                          FontWeight.normal,
-                                                    ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                width: MediaQuery.of(context).size.width * 0.92,
-                                height: 70,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      blurRadius: 3,
-                                      color: Color(0xFFB4BBC1),
-                                      offset: Offset(1, 1),
-                                      spreadRadius: 1,
-                                    )
-                                  ],
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          8, 0, 0, 0),
-                                      child: Card(
-                                        clipBehavior:
-                                            Clip.antiAliasWithSaveLayer,
-                                        color: Color(0x86FF5963),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(40),
-                                        ),
-                                        child: Padding(
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  8, 8, 8, 8),
-                                          child: Icon(
-                                            Icons.delivery_dining,
-                                            color: Color(0xFF1E2429),
-                                            size: 24,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            12, 0, 0, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'y1r2ntsx' /* Deliveroo */,
-                                              ),
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .subtitle1
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.local_bar,
                                                     color: Color(0xFF1E2429),
-                                                    fontSize: 18,
-                                                    fontWeight: FontWeight.w500,
+                                                    size: 40,
                                                   ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsetsDirectional
-                                                  .fromSTEB(0, 4, 0, 0),
-                                              child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  '7gwjdac5' /* Kastard */,
-                                                ),
-                                                style: FlutterFlowTheme.of(
-                                                        context)
-                                                    .bodyText1
-                                                    .override(
-                                                      fontFamily: 'Lexend Deca',
-                                                      color: Color(0xFF090F13),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.normal,
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
+                                                    child: Text(
+                                                      'Honesty Bar',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: Color(
+                                                                    0xFF090F13),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
                                                     ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12, 0, 12, 0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.end,
-                                        children: [
-                                          Text(
-                                            FFLocalizations.of(context).getText(
-                                              '014tkv96' /* -€25 */,
-                                            ),
-                                            textAlign: TextAlign.end,
-                                            style: FlutterFlowTheme.of(context)
-                                                .subtitle2
-                                                .override(
-                                                  fontFamily: 'Lexend Deca',
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryText,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                EdgeInsetsDirectional.fromSTEB(
-                                                    0, 4, 0, 0),
-                                            child: Text(
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'ni34n5en' /* Honesty Bar */,
-                                              ),
-                                              textAlign: TextAlign.end,
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyText1
-                                                  .override(
-                                                    fontFamily: 'Lexend Deca',
-                                                    color: Color(0xFF090F13),
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
                                                   ),
+                                                ],
+                                              ),
                                             ),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DoneOrdersWidget(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 90,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 5,
+                                                  color: Color(0x3A000000),
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  FaIcon(
+                                                    FontAwesomeIcons.history,
+                                                    color: Color(0xFF1E2429),
+                                                    size: 40,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
+                                                    child: Text(
+                                                      'History',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: Color(
+                                                                    0xFF090F13),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PaymentsWidget(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 90,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 5,
+                                                  color: Color(0x39000000),
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.payments,
+                                                    color: Color(0xFF1E2429),
+                                                    size: 40,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
+                                                    child: Text(
+                                                      'Payments',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: Color(
+                                                                    0xFF090F13),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16, 12, 16, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NavBarPage(
+                                                          initialPage:
+                                                              'Events'),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 90,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 5,
+                                                    color: Color(0x3B000000),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 4, 4, 4),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .emoji_events_rounded,
+                                                      color: Color(0xFF1E2429),
+                                                      size: 40,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 8, 0, 0),
+                                                      child: Text(
+                                                        'Events',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Lexend Deca',
+                                                                  color: Color(
+                                                                      0xFF090F13),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      YourAccommodationsWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 90,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 5,
+                                                    color: Color(0x3A000000),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 4, 4, 4),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.apartment,
+                                                      color: Color(0xFF1E2429),
+                                                      size: 40,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 8, 0, 0),
+                                                      child: Text(
+                                                        'Accommodation',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Lexend Deca',
+                                                                  color: Color(
+                                                                      0xFF090F13),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReservationsWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 90,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 5,
+                                                    color: Color(0x39000000),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 4, 4, 4),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.calendar_today,
+                                                      color: Color(0xFF1E2429),
+                                                      size: 40,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 8, 0, 0),
+                                                      child: Text(
+                                                        'Reservations',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Lexend Deca',
+                                                                  color: Color(
+                                                                      0xFF090F13),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
+                if (!(currentUserDocument?.isAdmin) ?? true)
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                    child: AuthUserStreamWidget(
+                      child: Material(
+                        color: Colors.transparent,
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0),
+                            topLeft: Radius.circular(20),
+                            topRight: Radius.circular(20),
+                          ),
+                        ),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 300,
+                          decoration: BoxDecoration(
+                            color:
+                                FlutterFlowTheme.of(context).primaryBackground,
+                            boxShadow: [
+                              BoxShadow(
+                                blurRadius: 4,
+                                color: Color(0x39000000),
+                                offset: Offset(0, -1),
+                              )
+                            ],
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(0),
+                              bottomRight: Radius.circular(0),
+                              topLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                            ),
+                            shape: BoxShape.rectangle,
+                            border: Border.all(
+                              color: Color(0x17FFFFFF),
+                              width: 2,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsetsDirectional.fromSTEB(0, 0, 0, 10),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          20, 16, 20, 0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            'Overview',
+                                            style: FlutterFlowTheme.of(context)
+                                                .subtitle2
+                                                .override(
+                                                  fontFamily: 'Poppins',
+                                                  color: Color(0xFF0A9782),
+                                                ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16, 12, 16, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    NavBarPage(
+                                                        initialPage:
+                                                            'Drinksandfood'),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 90,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 5,
+                                                  color: Color(0x3B000000),
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.local_bar,
+                                                    color: Color(0xFF1E2429),
+                                                    size: 40,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
+                                                    child: Text(
+                                                      'Honesty Bar',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: Color(
+                                                                    0xFF090F13),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    DoneOrdersWidget(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 90,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 5,
+                                                  color: Color(0x3A000000),
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  FaIcon(
+                                                    FontAwesomeIcons.history,
+                                                    color: Color(0xFF1E2429),
+                                                    size: 40,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
+                                                    child: Text(
+                                                      'History',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: Color(
+                                                                    0xFF090F13),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        InkWell(
+                                          onTap: () async {
+                                            await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PaymentsWidget(),
+                                              ),
+                                            );
+                                          },
+                                          child: Container(
+                                            width: 90,
+                                            height: 80,
+                                            decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              boxShadow: [
+                                                BoxShadow(
+                                                  blurRadius: 5,
+                                                  color: Color(0x39000000),
+                                                  offset: Offset(0, 2),
+                                                )
+                                              ],
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            ),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(4, 4, 4, 4),
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Icon(
+                                                    Icons.payments,
+                                                    color: Color(0xFF1E2429),
+                                                    size: 40,
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(
+                                                                0, 8, 0, 0),
+                                                    child: Text(
+                                                      'Payments',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyText1
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Lexend Deca',
+                                                                color: Color(
+                                                                    0xFF090F13),
+                                                                fontSize: 10,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16, 12, 16, 0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      NavBarPage(
+                                                          initialPage:
+                                                              'Events'),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 90,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 5,
+                                                    color: Color(0x3B000000),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 4, 4, 4),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons
+                                                          .emoji_events_rounded,
+                                                      color: Color(0xFF1E2429),
+                                                      size: 40,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 8, 0, 0),
+                                                      child: Text(
+                                                        'Events',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Lexend Deca',
+                                                                  color: Color(
+                                                                      0xFF090F13),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      YourAccommodationsWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 90,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 5,
+                                                    color: Color(0x3A000000),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 4, 4, 4),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.apartment,
+                                                      color: Color(0xFF1E2429),
+                                                      size: 40,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 8, 0, 0),
+                                                      child: Text(
+                                                        'Accommodation',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Lexend Deca',
+                                                                  color: Color(
+                                                                      0xFF090F13),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0, 0, 0, 10),
+                                          child: InkWell(
+                                            onTap: () async {
+                                              await Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      ReservationsWidget(),
+                                                ),
+                                              );
+                                            },
+                                            child: Container(
+                                              width: 90,
+                                              height: 80,
+                                              decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 5,
+                                                    color: Color(0x39000000),
+                                                    offset: Offset(0, 2),
+                                                  )
+                                                ],
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(4, 4, 4, 4),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Icon(
+                                                      Icons.calendar_today,
+                                                      color: Color(0xFF1E2429),
+                                                      size: 40,
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0, 8, 0, 0),
+                                                      child: Text(
+                                                        'Reservations',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyText1
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Lexend Deca',
+                                                                  color: Color(
+                                                                      0xFF090F13),
+                                                                  fontSize: 10,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

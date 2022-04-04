@@ -5,6 +5,7 @@ import '../flutter_flow/flutter_flow_widgets.dart';
 import '../login/login_widget.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordWidget extends StatefulWidget {
   const ForgotPasswordWidget({Key key}) : super(key: key);
@@ -45,16 +46,18 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
             size: 32,
           ),
         ),
-        title: Text(
-          FFLocalizations.of(context).getText(
-            'umymqi43' /* Forgot password? */,
+        title: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(20, 0, 0, 0),
+          child: Text(
+            'Forgot password?',
+            textAlign: TextAlign.center,
+            style: FlutterFlowTheme.of(context).title2.override(
+                  fontFamily: 'Lexend Deca',
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
-          style: FlutterFlowTheme.of(context).title2.override(
-                fontFamily: 'Lexend Deca',
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
         ),
         actions: [],
         centerTitle: false,
@@ -83,9 +86,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 100, 0, 0),
                   child: Text(
-                    FFLocalizations.of(context).getText(
-                      '58kdbn2m' /* Reset your password */,
-                    ),
+                    'Reset your password',
                     style: FlutterFlowTheme.of(context).title1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.of(context).primaryColor,
@@ -112,12 +113,8 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                     controller: emailController,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: FFLocalizations.of(context).getText(
-                        '5vsqsjj5' /* Email Address */,
-                      ),
-                      hintText: FFLocalizations.of(context).getText(
-                        'x5ymdt1p' /* Please enter a valid email */,
-                      ),
+                      labelText: 'Email Address',
+                      hintText: 'Please enter a valid email',
                       hintStyle: FlutterFlowTheme.of(context)
                           .bodyText1
                           .override(
@@ -171,9 +168,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              FFLocalizations.of(context).getText(
-                                '8z233e6g' /* Email required! */,
-                              ),
+                              'Email required!',
                             ),
                           ),
                         );
@@ -184,9 +179,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         context: context,
                       );
                     },
-                    text: FFLocalizations.of(context).getText(
-                      'bae8yfgm' /* Reset Password */,
-                    ),
+                    text: 'Reset Password',
                     options: FFButtonOptions(
                       width: 230,
                       height: 60,

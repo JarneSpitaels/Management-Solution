@@ -16,11 +16,6 @@
 	<string>Management Sol</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleLocalizations</key>
-	<array>
-		<string>en</string>
-		<string>nl</string>
-	</array>
 
 	<key>CFBundleShortVersionString</key>
 	<string>$(FLUTTER_BUILD_NAME)</string>
@@ -70,6 +65,7 @@
       <string>fb-messenger-share-api</string>
       <string>fbauth2</string>
       <string>fbshareextension</string>
+
     </array>
 
 	<key>UILaunchStoryboardName</key>

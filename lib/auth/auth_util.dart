@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 
 import '../backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:stream_transform/stream_transform.dart';
 import 'firebase_user_provider.dart';
 
@@ -21,42 +22,51 @@ Future<User> signInOrCreateAccount(
     final userCredential = await signInFunc();
     await maybeCreateUser(userCredential.user);
     return userCredential.user;
-  } on FirebaseAuthException {
+  } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(FFLocalizations.of(context).getText(
-        'e4mwzhzc' /* Something went wrong */,
-      ))),
+      SnackBar(content: Text('Something went wrong')),
     );
     return null;
   }
 }
 
-// ignore: missing_return
 Future signOut() {
   _currentJwtToken = '';
   FirebaseAuth.instance.signOut();
 }
 
+Future deleteUser(BuildContext context) async {
+  try {
+    if (currentUser?.user == null) {
+      print('Error: delete user attempted with no logged in user!');
+      return;
+    }
+    await currentUser?.user?.delete();
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'requires-recent-login') {
+      ScaffoldMessenger.of(context).hideCurrentSnackBar();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text(
+                'Too long since most recent sign in. Sign in again before deleting your account.')),
+      );
+    }
+  }
+}
+
 Future resetPassword({String email, BuildContext context}) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-  } on FirebaseAuthException {
+  } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-          content: Text(FFLocalizations.of(context).getText(
-        'e4mwzhzc' /* Something went wrong */,
-      ))),
+      SnackBar(content: Text('Something went wrong')),
     );
     return null;
   }
   ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-        content: Text(FFLocalizations.of(context).getText(
-      'l6vikl61' /* Wachtwoord reset email sent! */,
-    ))),
+    SnackBar(content: Text('Wachtwoord reset email sent!')),
   );
 }
 
@@ -129,9 +139,7 @@ Future beginPhoneAuth({
     },
     verificationFailed: (e) {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text(FFLocalizations.of(context).getText(
-          'e4mwzhzc' /* Something went wrong */,
-        )),
+        content: Text('Something went wrong'),
       ));
     },
     codeSent: (verificationId, _) {

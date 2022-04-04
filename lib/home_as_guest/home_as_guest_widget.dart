@@ -7,6 +7,7 @@ import '../flutter_flow/upload_media.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeAsGuestWidget extends StatefulWidget {
   const HomeAsGuestWidget({Key key}) : super(key: key);
@@ -119,18 +120,12 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                                 uploadedFileUrl = downloadUrl);
                                             showUploadMessage(
                                               context,
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                '34dizgkg' /* Succes! */,
-                                              ),
+                                              'Succes!',
                                             );
                                           } else {
                                             showUploadMessage(
                                               context,
-                                              FFLocalizations.of(context)
-                                                  .getText(
-                                                'bk5lx1uu' /* Failed to upload media! */,
-                                              ),
+                                              'Failed to upload media!',
                                             );
                                             return;
                                           }
@@ -172,9 +167,7 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Text(
-                                        FFLocalizations.of(context).getText(
-                                          'zpnum5w5' /* Welcome, */,
-                                        ),
+                                        'Welcome,',
                                         style: FlutterFlowTheme.of(context)
                                             .title3
                                             .override(
@@ -207,9 +200,7 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 4, 0, 0),
                                     child: Text(
-                                      FFLocalizations.of(context).getText(
-                                        '5dvmww16' /* Team Quivvy */,
-                                      ),
+                                      'Team Quivvy',
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
@@ -277,9 +268,7 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Text(
-                                      FFLocalizations.of(context).getText(
-                                        'v53ln2eg' /* Overview */,
-                                      ),
+                                      'Overview',
                                       style: FlutterFlowTheme.of(context)
                                           .subtitle2
                                           .override(
@@ -345,10 +334,7 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 8, 0, 0),
                                                   child: Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      '8xvr7kl4' /* Food & Drinks */,
-                                                    ),
+                                                    'Food & Drinks',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyText1
@@ -415,10 +401,7 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                                   padding: EdgeInsetsDirectional
                                                       .fromSTEB(0, 8, 0, 0),
                                                   child: Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      '857ch4ua' /* Reservations */,
-                                                    ),
+                                                    'Reservations',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyText1
@@ -470,10 +453,7 @@ class _HomeAsGuestWidgetState extends State<HomeAsGuestWidget>
                                               padding: EdgeInsetsDirectional
                                                   .fromSTEB(0, 8, 0, 0),
                                               child: Text(
-                                                FFLocalizations.of(context)
-                                                    .getText(
-                                                  'xaqf3s4q' /* Events */,
-                                                ),
+                                                'Events',
                                                 style: FlutterFlowTheme.of(
                                                         context)
                                                     .bodyText1

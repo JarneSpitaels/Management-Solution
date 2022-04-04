@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -145,11 +146,28 @@ bool validateFileFormat(String filePath, BuildContext context) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(
-      content: Text(FFLocalizations.of(context).getText(
-        'dgqhhoe9' /* Invalid file format */,
-      )),
+      content: Text('Invalid file format'),
     ));
   return false;
+}
+
+Future<SelectedMedia> selectFile({
+  List<String> allowedExtensions = const ['pdf'],
+}) async {
+  final pickedFiles = await FilePicker.platform.pickFiles(
+    type: FileType.custom,
+    allowedExtensions: allowedExtensions,
+  );
+  if (pickedFiles.files.isEmpty) {
+    return null;
+  }
+
+  final file = pickedFiles.files.first;
+  if (file?.bytes == null) {
+    return null;
+  }
+  final path = storagePath(currentUserUid, file.name, false);
+  return SelectedMedia(path, file.bytes);
 }
 
 String storagePath(String uid, String filePath, bool isVideo) {

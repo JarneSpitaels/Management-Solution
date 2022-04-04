@@ -1,22 +1,29 @@
-import '../flutter_flow/flutter_flow_drop_down.dart';
+import '../auth/auth_util.dart';
+import '../backend/backend.dart';
 import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../main.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ItemWidget extends StatefulWidget {
-  const ItemWidget({Key key}) : super(key: key);
+  const ItemWidget({
+    Key key,
+    this.items,
+  }) : super(key: key);
+
+  final ItemsRecord items;
 
   @override
   _ItemWidgetState createState() => _ItemWidgetState();
 }
 
 class _ItemWidgetState extends State<ItemWidget> {
-  String dropDownValue;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
@@ -24,30 +31,51 @@ class _ItemWidgetState extends State<ItemWidget> {
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
-        backgroundColor: Color(0xFF0A9782),
+        backgroundColor: FlutterFlowTheme.of(context).primaryColor,
         automaticallyImplyLeading: false,
         leading: FlutterFlowIconButton(
           borderColor: Colors.transparent,
           borderRadius: 30,
           borderWidth: 1,
           buttonSize: 60,
-          icon: FaIcon(
-            FontAwesomeIcons.arrowLeft,
-            color: FlutterFlowTheme.of(context).primaryBackground,
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            color: Colors.white,
             size: 30,
           ),
           onPressed: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => NavBarPage(initialPage: 'Drinksandfood'),
-              ),
-            );
+            Navigator.pop(context);
           },
         ),
-        actions: [],
+        title: Text(
+          widget.items.name,
+          style: FlutterFlowTheme.of(context).title2.override(
+                fontFamily: 'Poppins',
+                color: Colors.white,
+              ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+            child: InkWell(
+              onTap: () async {
+                await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => NavBarPage(initialPage: 'Cart'),
+                  ),
+                );
+              },
+              child: Icon(
+                Icons.shopping_cart,
+                color: Color(0xFFF9F9F9),
+                size: 30,
+              ),
+            ),
+          ),
+        ],
         centerTitle: true,
-        elevation: 0,
+        elevation: 2,
       ),
       backgroundColor: FlutterFlowTheme.of(context).secondaryColor,
       body: Stack(
@@ -76,11 +104,15 @@ class _ItemWidgetState extends State<ItemWidget> {
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
-                          Image.asset(
-                            'assets/images/james-yarema-wQFmDhrvVSs-unsplash.jpg',
-                            width: MediaQuery.of(context).size.width,
-                            height: 350,
-                            fit: BoxFit.fitHeight,
+                          Hero(
+                            tag: widget.items.imageurl,
+                            transitionOnUserGestures: true,
+                            child: Image.network(
+                              widget.items.imageurl,
+                              width: MediaQuery.of(context).size.width,
+                              height: 350,
+                              fit: BoxFit.fitHeight,
+                            ),
                           ),
                         ],
                       ),
@@ -90,9 +122,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Text(
-                              FFLocalizations.of(context).getText(
-                                'w1ghshwf' /* Cola */,
-                              ),
+                              widget.items.name,
                               style:
                                   FlutterFlowTheme.of(context).title1.override(
                                         fontFamily: 'Poppins',
@@ -104,8 +134,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                             ),
                             Expanded(
                               child: Text(
-                                FFLocalizations.of(context).getText(
-                                  '4b5wu12r' /* €1 */,
+                                formatNumber(
+                                  widget.items.value,
+                                  formatType: FormatType.decimal,
                                 ),
                                 textAlign: TextAlign.end,
                                 style: FlutterFlowTheme.of(context)
@@ -130,9 +161,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                                 padding:
                                     EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                                 child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    'ambdnlrh' /* Coca-Cola, or Coke, is a carbo... */,
-                                  ),
+                                  widget.items.description,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyText2
                                       .override(
@@ -142,57 +171,6 @@ class _ItemWidgetState extends State<ItemWidget> {
                                         fontSize: 14,
                                         fontWeight: FontWeight.w600,
                                       ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-                                child: FlutterFlowDropDown(
-                                  options: [
-                                    FFLocalizations.of(context).getText(
-                                      'pi7yvdvp' /* Myself */,
-                                    ),
-                                    FFLocalizations.of(context).getText(
-                                      '0uc2v1uo' /* Team */,
-                                    )
-                                  ].toList(),
-                                  onChanged: (val) =>
-                                      setState(() => dropDownValue = val),
-                                  width: 130,
-                                  height: 50,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .bodyText1
-                                      .override(
-                                        fontFamily: 'Lexend Deca',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryColor,
-                                        fontSize: 10,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                  icon: Icon(
-                                    Icons.arrow_drop_down_rounded,
-                                    color: Color(0xFF95A1AC),
-                                    size: 15,
-                                  ),
-                                  fillColor: Colors.white,
-                                  elevation: 2,
-                                  borderColor:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  borderWidth: 2,
-                                  borderRadius: 8,
-                                  margin: EdgeInsetsDirectional.fromSTEB(
-                                      24, 4, 8, 4),
-                                  hidesUnderline: true,
                                 ),
                               ),
                             ),
@@ -229,8 +207,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     color: Colors.black,
                                     size: 20,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    setState(() => FFAppState().count =
+                                        FFAppState().count + -1);
                                   },
                                 ),
                               ),
@@ -252,9 +231,7 @@ class _ItemWidgetState extends State<ItemWidget> {
                               child: Align(
                                 alignment: AlignmentDirectional(0, 0.05),
                                 child: AutoSizeText(
-                                  FFLocalizations.of(context).getText(
-                                    'baxn0yz3' /* 1 */,
-                                  ),
+                                  FFAppState().count.toString(),
                                   textAlign: TextAlign.center,
                                   style: FlutterFlowTheme.of(context)
                                       .title1
@@ -291,8 +268,9 @@ class _ItemWidgetState extends State<ItemWidget> {
                                     color: Colors.black,
                                     size: 30,
                                   ),
-                                  onPressed: () {
-                                    print('IconButton pressed ...');
+                                  onPressed: () async {
+                                    setState(() => FFAppState().count =
+                                        FFAppState().count + 1);
                                   },
                                 ),
                               ),
@@ -326,11 +304,72 @@ class _ItemWidgetState extends State<ItemWidget> {
                           child: Padding(
                             padding: EdgeInsetsDirectional.fromSTEB(0, 1, 0, 0),
                             child: FFButtonWidget(
-                              onPressed: () {
-                                print('Button pressed ...');
+                              onPressed: () async {
+                                var confirmDialogResponse =
+                                    await showDialog<bool>(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Confirmation'),
+                                              content: Text(
+                                                  'Are you sure you want to add this item to your shopping cart?'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext,
+                                                          false),
+                                                  child: Text('Cancel'),
+                                                ),
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext,
+                                                          true),
+                                                  child: Text('Confirm'),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        ) ??
+                                        false;
+                                if (confirmDialogResponse) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        'Item(s) were succesfully added to your shopping basket',
+                                        style: GoogleFonts.getFont(
+                                          'Roboto',
+                                          color: Color(0xFF0A9782),
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      duration: Duration(milliseconds: 4000),
+                                      backgroundColor: Colors.white,
+                                    ),
+                                  );
+
+                                  final cartCreateData = createCartRecordData(
+                                    name: widget.items.name,
+                                    price: widget.items.value,
+                                    quantity: FFAppState().count,
+                                    imageurl: widget.items.imageurl,
+                                    user: currentUserReference,
+                                  );
+                                  await CartRecord.collection
+                                      .doc()
+                                      .set(cartCreateData);
+                                } else {
+                                  return;
+                                }
+
+                                setState(() => FFAppState().count = 1);
                               },
-                              text: FFLocalizations.of(context).getText(
-                                'al8j316a' /* Add to Cart (€1.00) */,
+                              text: 'Add to cart',
+                              icon: Icon(
+                                Icons.add_shopping_cart_outlined,
+                                size: 15,
                               ),
                               options: FFButtonOptions(
                                 color:

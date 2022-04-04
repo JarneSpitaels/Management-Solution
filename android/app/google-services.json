@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "905605306611",
+    "firebase_url": "https://management-solutions-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "management-solutions",
     "storage_bucket": "management-solutions.appspot.com"
   },
@@ -27,7 +28,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "905605306611-m0gs9mdfn8tjmt9i0c1hcdivlnk14nj1.apps.googleusercontent.com",
+              "client_id": "905605306611-d18pptajj6t855g0rc2k8hqrv3031av0.apps.googleusercontent.com",
               "client_type": 3
             },
             {

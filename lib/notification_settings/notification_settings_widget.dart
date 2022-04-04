@@ -2,6 +2,7 @@ import '../flutter_flow/flutter_flow_icon_button.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class NotificationSettingsWidget extends StatefulWidget {
   const NotificationSettingsWidget({Key key}) : super(key: key);
@@ -39,9 +40,7 @@ class _NotificationSettingsWidgetState
           },
         ),
         title: Text(
-          FFLocalizations.of(context).getText(
-            'qh7zxd1v' /* Notifications settings */,
-          ),
+          'Notifications settings',
           style: FlutterFlowTheme.of(context).bodyText1.override(
                 fontFamily: 'Lexend Deca',
                 color: Colors.white,
@@ -83,9 +82,7 @@ class _NotificationSettingsWidgetState
                             children: [
                               Expanded(
                                 child: Text(
-                                  FFLocalizations.of(context).getText(
-                                    'wfttqt8w' /* Choose what notifcations you w... */,
-                                  ),
+                                  'Choose what notifcations you want to recieve below and we will update the settings.',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyText2
                                       .override(
@@ -107,9 +104,7 @@ class _NotificationSettingsWidgetState
                             onChanged: (newValue) =>
                                 setState(() => switchListTileValue1 = newValue),
                             title: Text(
-                              FFLocalizations.of(context).getText(
-                                'm6j2h737' /* Push Notifications */,
-                              ),
+                              'Push Notifications',
                               style:
                                   FlutterFlowTheme.of(context).title3.override(
                                         fontFamily: 'Lexend Deca',
@@ -120,9 +115,7 @@ class _NotificationSettingsWidgetState
                                       ),
                             ),
                             subtitle: Text(
-                              FFLocalizations.of(context).getText(
-                                'c4lonxmg' /* Receive Push notifications fro... */,
-                              ),
+                              'Receive Push notifications from our application on a semi regular basis.',
                               style: FlutterFlowTheme.of(context)
                                   .bodyText1
                                   .override(
@@ -150,9 +143,7 @@ class _NotificationSettingsWidgetState
                           onChanged: (newValue) =>
                               setState(() => switchListTileValue2 = newValue),
                           title: Text(
-                            FFLocalizations.of(context).getText(
-                              'dj0i6npt' /* Email Notifications */,
-                            ),
+                            'Email Notifications',
                             style: FlutterFlowTheme.of(context).title3.override(
                                   fontFamily: 'Lexend Deca',
                                   color:
@@ -162,9 +153,7 @@ class _NotificationSettingsWidgetState
                                 ),
                           ),
                           subtitle: Text(
-                            FFLocalizations.of(context).getText(
-                              's0hp46w6' /* Receive email notifications fr... */,
-                            ),
+                            'Receive email notifications from our marketing team about new features.',
                             style:
                                 FlutterFlowTheme.of(context).bodyText1.override(
                                       fontFamily: 'Lexend Deca',
@@ -190,9 +179,7 @@ class _NotificationSettingsWidgetState
                           onChanged: (newValue) =>
                               setState(() => switchListTileValue3 = newValue),
                           title: Text(
-                            FFLocalizations.of(context).getText(
-                              'rwxchra7' /* Location Services */,
-                            ),
+                            'Location Services',
                             style: FlutterFlowTheme.of(context).title3.override(
                                   fontFamily: 'Lexend Deca',
                                   color:
@@ -202,9 +189,7 @@ class _NotificationSettingsWidgetState
                                 ),
                           ),
                           subtitle: Text(
-                            FFLocalizations.of(context).getText(
-                              '3egvsz1x' /* Allow us to track your locatio... */,
-                            ),
+                            'Allow us to track your location, this helps keep track of spending and keeps you safe.',
                             style:
                                 FlutterFlowTheme.of(context).bodyText1.override(
                                       fontFamily: 'Lexend Deca',

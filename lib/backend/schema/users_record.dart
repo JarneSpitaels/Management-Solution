@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'index.dart';
 import 'serializers.dart';
 import 'package:built_value/built_value.dart';
 
@@ -31,6 +32,24 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
   String get phoneNumber;
 
   @nullable
+  double get spendings;
+
+  @nullable
+  String get organisation;
+
+  @nullable
+  BuiltList<DocumentReference> get cart;
+
+  @nullable
+  bool get isAdmin;
+
+  @nullable
+  BuiltList<String> get favorites;
+
+  @nullable
+  BuiltList<String> get accommodations;
+
+  @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
   DocumentReference get reference;
 
@@ -39,7 +58,13 @@ abstract class UsersRecord implements Built<UsersRecord, UsersRecordBuilder> {
     ..displayName = ''
     ..photoUrl = ''
     ..uid = ''
-    ..phoneNumber = '';
+    ..phoneNumber = ''
+    ..spendings = 0.0
+    ..organisation = ''
+    ..cart = ListBuilder()
+    ..isAdmin = false
+    ..favorites = ListBuilder()
+    ..accommodations = ListBuilder();
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('users');
@@ -69,6 +94,9 @@ Map<String, dynamic> createUsersRecordData({
   String uid,
   DateTime createdTime,
   String phoneNumber,
+  double spendings,
+  String organisation,
+  bool isAdmin,
 }) =>
     serializers.toFirestore(
         UsersRecord.serializer,
@@ -78,4 +106,10 @@ Map<String, dynamic> createUsersRecordData({
           ..photoUrl = photoUrl
           ..uid = uid
           ..createdTime = createdTime
-          ..phoneNumber = phoneNumber));
+          ..phoneNumber = phoneNumber
+          ..spendings = spendings
+          ..organisation = organisation
+          ..cart = null
+          ..isAdmin = isAdmin
+          ..favorites = null
+          ..accommodations = null));

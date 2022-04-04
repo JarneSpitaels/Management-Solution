@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'index.dart';
 import 'serializers.dart';
 import 'package:built_value/built_value.dart';
 
@@ -12,10 +13,16 @@ abstract class ItemsRecord implements Built<ItemsRecord, ItemsRecordBuilder> {
   String get name;
 
   @nullable
-  String get image;
+  double get value;
 
   @nullable
-  double get value;
+  String get imageurl;
+
+  @nullable
+  String get description;
+
+  @nullable
+  String get type;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -23,8 +30,10 @@ abstract class ItemsRecord implements Built<ItemsRecord, ItemsRecordBuilder> {
 
   static void _initializeBuilder(ItemsRecordBuilder builder) => builder
     ..name = ''
-    ..image = ''
-    ..value = 0.0;
+    ..value = 0.0
+    ..imageurl = ''
+    ..description = ''
+    ..type = '';
 
   static CollectionReference get collection =>
       FirebaseFirestore.instance.collection('items');
@@ -49,12 +58,16 @@ abstract class ItemsRecord implements Built<ItemsRecord, ItemsRecordBuilder> {
 
 Map<String, dynamic> createItemsRecordData({
   String name,
-  String image,
   double value,
+  String imageurl,
+  String description,
+  String type,
 }) =>
     serializers.toFirestore(
         ItemsRecord.serializer,
         ItemsRecord((i) => i
           ..name = name
-          ..image = image
-          ..value = value));
+          ..value = value
+          ..imageurl = imageurl
+          ..description = description
+          ..type = type));

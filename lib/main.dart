@@ -1,25 +1,32 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'auth/firebase_user_provider.dart';
 import 'auth/auth_util.dart';
 
+import 'flutter_flow/flutter_flow_util.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:management_sol/login/login_widget.dart';
-import 'home/home_widget.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'drinksandfood/drinksandfood_widget.dart';
+import 'home/home_widget.dart';
 import 'settings_page/settings_page_widget.dart';
-import 'accommodations/accommodations_widget.dart';
+import 'meeting_rooms/meeting_rooms_widget.dart';
+import 'events/events_widget.dart';
+import 'all_chats/all_chats_widget.dart';
+import 'cart/cart_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
 
   await FlutterFlowTheme.initialize();
+
   runApp(MyApp());
 }
-//Comment added
 
 class MyApp extends StatefulWidget {
   // This widget is the root of your application.
@@ -73,7 +80,6 @@ class _MyAppState extends State<MyApp> {
       locale: _locale,
       supportedLocales: const [
         Locale('en', ''),
-        Locale('nl', ''),
       ],
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
@@ -106,7 +112,7 @@ class NavBarPage extends StatefulWidget {
 
 /// This is the private State class that goes with NavBarPage.
 class _NavBarPageState extends State<NavBarPage> {
-  String _currentPage = 'Accommodations';
+  String _currentPage = 'MeetingRooms';
 
   @override
   void initState() {
@@ -117,10 +123,13 @@ class _NavBarPageState extends State<NavBarPage> {
   @override
   Widget build(BuildContext context) {
     final tabs = {
-      'home': HomeWidget(),
       'Drinksandfood': DrinksandfoodWidget(),
+      'home': HomeWidget(),
       'SettingsPage': SettingsPageWidget(),
-      'Accommodations': AccommodationsWidget(),
+      'MeetingRooms': MeetingRoomsWidget(),
+      'Events': EventsWidget(),
+      'AllChats': AllChatsWidget(),
+      'Cart': CartWidget(),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPage);
     return Scaffold(
@@ -137,20 +146,6 @@ class _NavBarPageState extends State<NavBarPage> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_outlined,
-              size: 30,
-            ),
-            activeIcon: Icon(
-              Icons.home_sharp,
-              size: 24,
-            ),
-            label: FFLocalizations.of(context).getText(
-              'uacrnz77' /* Home */,
-            ),
-            tooltip: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
               Icons.fastfood_outlined,
               size: 24,
             ),
@@ -158,9 +153,19 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.fastfood_rounded,
               size: 24,
             ),
-            label: FFLocalizations.of(context).getText(
-              'wkb2m77d' /* Drinks */,
+            label: 'Drinks',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.home_outlined,
+              size: 30,
             ),
+            activeIcon: Icon(
+              Icons.home_sharp,
+              size: 24,
+            ),
+            label: 'Home',
             tooltip: '',
           ),
           BottomNavigationBarItem(
@@ -172,9 +177,7 @@ class _NavBarPageState extends State<NavBarPage> {
               Icons.settings,
               size: 24,
             ),
-            label: FFLocalizations.of(context).getText(
-              'c5nzmm88' /* Settings */,
-            ),
+            label: 'Settings',
             tooltip: '',
           ),
           BottomNavigationBarItem(
@@ -186,9 +189,43 @@ class _NavBarPageState extends State<NavBarPage> {
               FontAwesomeIcons.solidBuilding,
               size: 22,
             ),
-            label: FFLocalizations.of(context).getText(
-              'g2rofudp' /* Accommodations */,
+            label: 'Accommodations',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.emoji_events_outlined,
+              size: 24,
             ),
+            activeIcon: Icon(
+              Icons.emoji_events_rounded,
+              size: 24,
+            ),
+            label: 'Home',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.chat_bubble_outline,
+              size: 24,
+            ),
+            activeIcon: Icon(
+              Icons.chat_bubble_rounded,
+              size: 24,
+            ),
+            label: 'Chats',
+            tooltip: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.shopping_cart_outlined,
+              size: 24,
+            ),
+            activeIcon: Icon(
+              Icons.shopping_cart,
+              size: 24,
+            ),
+            label: 'Shopping basket',
             tooltip: '',
           )
         ],

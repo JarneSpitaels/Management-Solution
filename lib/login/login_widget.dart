@@ -7,6 +7,7 @@ import '../login_as_guest/login_as_guest_widget.dart';
 import '../main.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({Key key}) : super(key: key);
@@ -67,9 +68,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              FFLocalizations.of(context).getText(
-                                'wf261594' /* Welcome To */,
-                              ),
+                              'Welcome To',
                               style:
                                   FlutterFlowTheme.of(context).title1.override(
                                         fontFamily: 'Lexend Deca',
@@ -121,14 +120,10 @@ class _LoginWidgetState extends State<LoginWidget> {
                                     FlutterFlowTheme.of(context).secondaryText,
                                 tabs: [
                                   Tab(
-                                    text: FFLocalizations.of(context).getText(
-                                      'sgegagl9' /* Login */,
-                                    ),
+                                    text: 'Login',
                                   ),
                                   Tab(
-                                    text: FFLocalizations.of(context).getText(
-                                      'rtyw1ix1' /* Create Account */,
-                                    ),
+                                    text: 'Create Account',
                                   ),
                                 ],
                               ),
@@ -152,10 +147,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      '9zllmc1q' /* Login */,
-                                                    ),
+                                                    'Login',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .title1
@@ -182,10 +174,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      'cbg99ylj' /* Enter your details to continue... */,
-                                                    ),
+                                                    'Enter your details to continue.',
                                                     textAlign: TextAlign.center,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -220,11 +209,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       decoration:
                                                           InputDecoration(
                                                         labelText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'lcfwag04' /* Email Address */,
-                                                        ),
+                                                            'Email Address',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -240,11 +225,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                           .normal,
                                                                 ),
                                                         hintText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '6go2n43u' /* Enter your email here... */,
-                                                        ),
+                                                            'Enter your email here...',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -323,12 +304,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                           !loginPasswordVisibility,
                                                       decoration:
                                                           InputDecoration(
-                                                        labelText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'jwejpc2m' /* Password */,
-                                                        ),
+                                                        labelText: 'Password',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -344,11 +320,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                           .normal,
                                                                 ),
                                                         hintText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'b49ke9go' /* Enter your email here... */,
-                                                        ),
+                                                            'Enter your email here...',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -451,16 +423,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       builder: (context) =>
                                                           NavBarPage(
                                                               initialPage:
-                                                                  'Accommodations'),
+                                                                  'MeetingRooms'),
                                                     ),
                                                     (r) => false,
                                                   );
                                                 },
-                                                text:
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                  '94fezzyy' /* Login */,
-                                                ),
+                                                text: 'Login',
                                                 options: FFButtonOptions(
                                                   width: 230,
                                                   height: 50,
@@ -503,13 +471,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     ),
                                                   );
                                                 },
-                                                text:
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                  'cu49p9vk' /* Forgot password? */,
-                                                ),
+                                                text: 'Forgot password?',
                                                 options: FFButtonOptions(
-                                                  width: double.infinity,
+                                                  width: 165,
                                                   height: 40,
                                                   color: Color(0x00000FFF),
                                                   textStyle: FlutterFlowTheme
@@ -545,11 +509,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     ),
                                                   );
                                                 },
-                                                text:
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                  '496kq7hq' /* Login as guest */,
-                                                ),
+                                                text: 'Login as guest',
                                                 icon: Icon(
                                                   Icons.person_sharp,
                                                   size: 15,
@@ -571,7 +531,6 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                   elevation: 0,
                                                   borderSide: BorderSide(
                                                     color: Colors.transparent,
-                                                    width: 1,
                                                   ),
                                                   borderRadius: 0,
                                                 ),
@@ -598,10 +557,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      'tgyasntq' /* Create Account */,
-                                                    ),
+                                                    'Create Account',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .title1
@@ -628,10 +584,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                     MainAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                      '6si8tgux' /* Enter the information below to... */,
-                                                    ),
+                                                    'Enter the information below to get started.',
                                                     textAlign: TextAlign.center,
                                                     style: FlutterFlowTheme.of(
                                                             context)
@@ -666,11 +619,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       decoration:
                                                           InputDecoration(
                                                         labelText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '0ygonttg' /* Email Address */,
-                                                        ),
+                                                            'Email Address',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -686,11 +635,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                           .normal,
                                                                 ),
                                                         hintText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'b7do8th8' /* Enter your email here... */,
-                                                        ),
+                                                            'Enter your email here...',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -769,12 +714,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                           !createPasswordVisibility,
                                                       decoration:
                                                           InputDecoration(
-                                                        labelText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '3qouv7jw' /* Password */,
-                                                        ),
+                                                        labelText: 'Password',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -790,11 +730,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                           .normal,
                                                                 ),
                                                         hintText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          '2rnmtghi' /* Enter your password */,
-                                                        ),
+                                                            'Enter your password',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -890,11 +826,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       decoration:
                                                           InputDecoration(
                                                         labelText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'wec194tw' /* Confirm Password */,
-                                                        ),
+                                                            'Confirm Password',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -910,11 +842,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                                           .normal,
                                                                 ),
                                                         hintText:
-                                                            FFLocalizations.of(
-                                                                    context)
-                                                                .getText(
-                                                          'qnhcyxyl' /* Enter the same password as abo... */,
-                                                        ),
+                                                            'Enter the same password as above.',
                                                         hintStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -1007,11 +935,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                         .showSnackBar(
                                                       SnackBar(
                                                         content: Text(
-                                                          FFLocalizations.of(
-                                                                  context)
-                                                              .getText(
-                                                            'rtlkz4qe' /* Passwords don't match */,
-                                                          ),
+                                                          'Passwords don\'t match',
                                                         ),
                                                       ),
                                                     );
@@ -1037,16 +961,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                                       builder: (context) =>
                                                           NavBarPage(
                                                               initialPage:
-                                                                  'Accommodations'),
+                                                                  'MeetingRooms'),
                                                     ),
                                                     (r) => false,
                                                   );
                                                 },
-                                                text:
-                                                    FFLocalizations.of(context)
-                                                        .getText(
-                                                  'tp7ywc5w' /* Create Account */,
-                                                ),
+                                                text: 'Create Account',
                                                 options: FFButtonOptions(
                                                   width: 230,
                                                   height: 50,
@@ -1109,7 +1029,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            NavBarPage(initialPage: 'Accommodations'),
+                            NavBarPage(initialPage: 'MeetingRooms'),
                       ),
                       (r) => false,
                     );
@@ -1146,7 +1066,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            NavBarPage(initialPage: 'Accommodations'),
+                            NavBarPage(initialPage: 'MeetingRooms'),
                       ),
                       (r) => false,
                     );
@@ -1183,7 +1103,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       context,
                       MaterialPageRoute(
                         builder: (context) =>
-                            NavBarPage(initialPage: 'Accommodations'),
+                            NavBarPage(initialPage: 'MeetingRooms'),
                       ),
                       (r) => false,
                     );

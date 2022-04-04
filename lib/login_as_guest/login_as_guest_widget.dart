@@ -6,6 +6,7 @@ import '../home_as_guest/home_as_guest_widget.dart';
 import '../login/login_widget.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class LoginAsGuestWidget extends StatefulWidget {
   const LoginAsGuestWidget({Key key}) : super(key: key);
@@ -46,16 +47,17 @@ class _LoginAsGuestWidgetState extends State<LoginAsGuestWidget> {
             size: 32,
           ),
         ),
-        title: Text(
-          FFLocalizations.of(context).getText(
-            'bwgo0zcv' /* Login as guest */,
+        title: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(30, 0, 0, 0),
+          child: Text(
+            'Login as guest',
+            style: FlutterFlowTheme.of(context).title2.override(
+                  fontFamily: 'Lexend Deca',
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
           ),
-          style: FlutterFlowTheme.of(context).title2.override(
-                fontFamily: 'Lexend Deca',
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
         ),
         actions: [],
         centerTitle: false,
@@ -84,9 +86,7 @@ class _LoginAsGuestWidgetState extends State<LoginAsGuestWidget> {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 100, 0, 0),
                   child: Text(
-                    FFLocalizations.of(context).getText(
-                      'yo14cv6u' /* Welcome! */,
-                    ),
+                    'Welcome!',
                     style: FlutterFlowTheme.of(context).title1.override(
                           fontFamily: 'Poppins',
                           color: FlutterFlowTheme.of(context).primaryColor,
@@ -113,12 +113,8 @@ class _LoginAsGuestWidgetState extends State<LoginAsGuestWidget> {
                     controller: emailController,
                     obscureText: false,
                     decoration: InputDecoration(
-                      labelText: FFLocalizations.of(context).getText(
-                        '2yle179c' /* Email Address */,
-                      ),
-                      hintText: FFLocalizations.of(context).getText(
-                        '6bqa715t' /* Please enter a valid email */,
-                      ),
+                      labelText: 'Email Address',
+                      hintText: 'Please enter a valid email',
                       hintStyle: FlutterFlowTheme.of(context)
                           .bodyText1
                           .override(
@@ -179,9 +175,7 @@ class _LoginAsGuestWidgetState extends State<LoginAsGuestWidget> {
                         ),
                       );
                     },
-                    text: FFLocalizations.of(context).getText(
-                      'ba29f0lg' /* Sign in as guest */,
-                    ),
+                    text: 'Sign in as guest',
                     options: FFButtonOptions(
                       width: 230,
                       height: 60,

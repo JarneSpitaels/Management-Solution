@@ -15,10 +15,28 @@ abstract class AccommodationsRecord
   String get name;
 
   @nullable
-  String get image;
+  String get email;
 
   @nullable
-  LatLng get locatie;
+  String get location;
+
+  @nullable
+  String get backgroundImage;
+
+  @nullable
+  String get profileImage;
+
+  @nullable
+  String get phonenumber;
+
+  @nullable
+  BuiltList<String> get category;
+
+  @nullable
+  String get description;
+
+  @nullable
+  String get openingHours;
 
   @nullable
   @BuiltValueField(wireName: kDocumentReferenceField)
@@ -26,10 +44,17 @@ abstract class AccommodationsRecord
 
   static void _initializeBuilder(AccommodationsRecordBuilder builder) => builder
     ..name = ''
-    ..image = '';
+    ..email = ''
+    ..location = ''
+    ..backgroundImage = ''
+    ..profileImage = ''
+    ..phonenumber = ''
+    ..category = ListBuilder()
+    ..description = ''
+    ..openingHours = '';
 
   static CollectionReference get collection =>
-      FirebaseFirestore.instance.collection('Accommodations');
+      FirebaseFirestore.instance.collection('accommodations');
 
   static Stream<AccommodationsRecord> getDocument(DocumentReference ref) => ref
       .snapshots()
@@ -52,12 +77,23 @@ abstract class AccommodationsRecord
 
 Map<String, dynamic> createAccommodationsRecordData({
   String name,
-  String image,
-  LatLng locatie,
+  String email,
+  String location,
+  String backgroundImage,
+  String profileImage,
+  String phonenumber,
+  String description,
+  String openingHours,
 }) =>
     serializers.toFirestore(
         AccommodationsRecord.serializer,
         AccommodationsRecord((a) => a
           ..name = name
-          ..image = image
-          ..locatie = locatie));
+          ..email = email
+          ..location = location
+          ..backgroundImage = backgroundImage
+          ..profileImage = profileImage
+          ..phonenumber = phonenumber
+          ..category = null
+          ..description = description
+          ..openingHours = openingHours));
